@@ -24,6 +24,6 @@ struct Cases: Identifiable {
     var deaths: Int
     var todayDeaths: Int?
     var recovered: Int
-    var critical: Int?
-    var updated: Int
+    var critical: Int
+    var updated: String
 }

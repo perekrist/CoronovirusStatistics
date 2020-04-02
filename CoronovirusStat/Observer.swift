@@ -15,10 +15,9 @@ class Observer: ObservableObject {
     var baseUrl = "https://corona.lmao.ninja/"
     
     @Published var countries = [Country]()
-    @Published var summaryCase = Cases(id: UUID(), casesCount: 0, todayCases: 0, deaths: 0, todayDeaths: 0, recovered: 0, critical: 0, updated: 0)
-
+    @Published var summaryCase = Cases(id: UUID(), casesCount: 0, todayCases: 0, deaths: 0, todayDeaths: 0, recovered: 0, critical: 0, updated: "")
     
-    init() {
+    func upd() {
         getStat()
         getContriesStat()
     }
@@ -28,13 +27,13 @@ class Observer: ObservableObject {
             let json = try! JSON(data: data.data!)
             
             self.summaryCase = Cases(id: UUID(),
-                                    casesCount: json["cases"].intValue,
+                            casesCount: json["cases"].intValue,
                              todayCases: nil,
                              deaths: json["deaths"].intValue,
                              todayDeaths: nil,
                              recovered: json["recovered"].intValue,
-                             critical: nil,
-                             updated: json["updated"].intValue
+                             critical: json["critical"].intValue,
+                             updated: self.getDate(time: json["updated"].intValue)
             )
         }
     }
@@ -59,12 +58,20 @@ class Observer: ObservableObject {
                                     todayDeaths: i.1["todayDeaths"].intValue,
                                     recovered: i.1["recovered"].intValue,
                                     critical: i.1["critical"].intValue,
-                                    updated: i.1["updated"].intValue
+                                    updated: self.getDate(time: i.1["updated"].intValue)
                         )
                 )
                 self.countries.append(country)
             }
         }
+    }
+    
+    func getDate(time: Int) -> String {
+        let date = Double(time / 1000)
+        let format = DateFormatter()
+        format.dateFormat = "dd MMM YYYY hh:mm a"
+        
+        return format.string(from: Date(timeIntervalSince1970: TimeInterval(exactly: date)!))
     }
     
     
