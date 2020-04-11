@@ -10,6 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var x : CGFloat = 0
+    @State var count : CGFloat = 0
+    @State var screen = UIScreen.main.bounds.width - 30
+    @State var op : CGFloat = 0
+    
     @ObservedObject var observer = Observer()
     
     var body: some View {
@@ -41,6 +46,13 @@ struct ContentView: View {
                         .font(.title)
                         .padding()
                     
+                    Text("\(self.observer.summaryCase.casesCount)")
+                        .foregroundColor(.gray)
+                        .font(.largeTitle)
+                        .bold()
+                    
+                    Divider()
+                    
                     Text("Deaths")
                         .font(.body)
                     
@@ -66,16 +78,16 @@ struct ContentView: View {
                 
                                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
+                    HStack(spacing: 20) {
                         Text("")
-                            .frame(height: UIScreen.main.bounds.width / 2 + 60)
+                            .frame(height: UIScreen.main.bounds.width / 2 + 100)
                         ForEach(self.observer.countries) {country in
                             CountryCardView(country: country)
                         }
                     }
                 }.padding(.vertical)
                 
-                Spacer()
+                 Spacer()
                 
             }.onAppear {
                 self.observer.upd()

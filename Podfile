@@ -8,6 +8,6 @@ target 'CoronovirusStat' do
   # Pods for CoronovirusStat
 	pod 'Alamofire', '~> 5.0'
 	pod 'SwiftyJSON', '~> 4.0'
-	
+	pod 'SDWebImageSwiftUI'
 
 end

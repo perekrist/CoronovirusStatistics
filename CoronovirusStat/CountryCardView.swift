@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct CountryCardView: View {
     
@@ -15,9 +16,16 @@ struct CountryCardView: View {
     var body: some View {
         VStack {
             HStack {
+                WebImage(url: URL(string: "\(self.country.flag)"))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40)
+                    .padding(.top, 20)
+                
                 Text(self.country.name)
                     .font(.title)
                     .bold()
+                    .padding(.top, 20)
             }
             
             HStack {
@@ -35,6 +43,7 @@ struct CountryCardView: View {
                     Text("\(self.country.cases.deaths)")
                     .font(.system(size: 20))
                         .foregroundColor(.red)
+                    .shadow(radius: 20)
                     
                     Divider()
                     
@@ -44,6 +53,7 @@ struct CountryCardView: View {
                     Text("\(self.country.cases.recovered)")
                     .font(.system(size: 20))
                         .foregroundColor(.green)
+                    .shadow(radius: 20)
                     
                     Divider()
 
@@ -51,15 +61,28 @@ struct CountryCardView: View {
                         .font(.system(size: 20))
                     
                     Text("\(self.country.cases.critical)")
-                    .font(.system(size: 20))
+                        .font(.system(size: 20))
                         .foregroundColor(.yellow)
-                }.padding() 
+                        .shadow(radius: 20)
+                }.background(Color.white.opacity(0.5))
+                .cornerRadius(20)
+                .padding(.bottom, 20)
             }
         }
             .padding()
-        .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.width / 2 + 50)
-            .background(Color.white)
+            .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.width / 2 + 50)
+        .background(Color.init(generateRandomColor()).opacity(0.5))
             .cornerRadius(20)
+        .shadow(color: Color.black.opacity(0.2), radius: 10)
+        .padding(.vertical)
+    }
+    
+    func generateRandomColor() -> UIColor {
+          let hue : CGFloat = CGFloat(arc4random() % 256) / 256
+          let saturation : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5
+          let brightness : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5
+                
+          return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
     }
 }
 
