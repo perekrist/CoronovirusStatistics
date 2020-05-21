@@ -13,7 +13,6 @@ struct ContentView: View {
     @State var x : CGFloat = 0
     @State var count : CGFloat = 0
     @State var screen = UIScreen.main.bounds.width - 30
-    @State var op : CGFloat = 0
     
     @ObservedObject var coronaVirusViewModel = CoronaVirusViewModel()
     
@@ -40,7 +39,8 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                                 .padding()
                         }
-                    }.padding(.bottom, 20)
+                    }
+                    .padding(.bottom, 20)
                     
                     VStack {
                         Text("COVID - 19 Cases")
@@ -77,20 +77,43 @@ struct ContentView: View {
                     .background(Color.white)
                     .frame(width: UIScreen.main.bounds.width)
                     
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20) {
-                            Text("")
-                                .frame(height: UIScreen.main.bounds.width / 2 + 100)
-                            ForEach(self.coronaVirusViewModel.countries) {country in
-                                CountryCardView(country: country)
-                            }
+                    HStack(spacing: 15) {
+                        ForEach(self.coronaVirusViewModel.countries) { country in
+                            CountryCardView(country: country)
+                                .offset(x: self.x)
+                                .highPriorityGesture(DragGesture()
+                                    .onChanged({ (value) in
+                                        if value.translation.width > 0 {
+                                            self.x = value.location.x
+                                        } else {
+                                            self.x = value.location.x - self.screen
+                                        }
+                                    })
+                                    .onEnded({ (value) in
+                                        if value.translation.width > 0 {
+                                            if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != self.coronaVirusViewModel.countries.count {
+                                                self.count -= 1
+                                                self.x = -((self.screen + 15) * self.count)
+                                            } else {
+                                                self.x = -((self.screen + 15) * self.count)
+                                            }
+                                        } else {
+                                            if -value.translation.width > ((self.screen - 80) / 2) && Int(self.count) !=  (self.coronaVirusViewModel.countries.count / 2) {
+                                                self.count += 1
+                                                self.x = -((self.screen + 15) * self.count)
+                                            } else {
+                                                self.x = -((self.screen + 15) * self.count)
+                                            }
+                                        }
+                                    })
+                            )
                         }
-                    }.padding(.vertical)
-                    
-                    Spacer()
-                    
+                    }
+                    .animation(.spring())
                 }
+                
+                Spacer()
+                
             }
             
             if self.coronaVirusViewModel.isLoading {

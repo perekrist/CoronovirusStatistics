@@ -21,6 +21,7 @@ class CoronaVirusViewModel: ObservableObject {
     
     func update() {
         isLoading = true
+        
         getStatistics()
         getContriesStatistics()
     }
@@ -30,13 +31,13 @@ class CoronaVirusViewModel: ObservableObject {
             let json = try! JSON(data: data.data!)
             
             self.summaryCase = CasesModel(id: UUID(),
-                            casesCount: json["cases"].intValue,
-                             todayCases: nil,
-                             deaths: json["deaths"].intValue,
-                             todayDeaths: nil,
-                             recovered: json["recovered"].intValue,
-                             critical: json["critical"].intValue,
-                             updated: self.getDate(time: json["updated"].intValue)
+                                          casesCount: json["cases"].intValue,
+                                          todayCases: nil,
+                                          deaths: json["deaths"].intValue,
+                                          todayDeaths: nil,
+                                          recovered: json["recovered"].intValue,
+                                          critical: json["critical"].intValue,
+                                          updated: self.getDate(time: json["updated"].intValue)
             )
         }
     }
@@ -50,24 +51,27 @@ class CoronaVirusViewModel: ObservableObject {
             for i in json {
                 let countryInfo = i.1["countryInfo"]
                 let country = CountryModel(id: countryInfo["_id"].intValue,
-                                      name: i.1["country"].stringValue,
-                                      flag: countryInfo["flag"].stringValue,
-                                      lat: countryInfo["lat"].floatValue,
-                                      long: countryInfo["lonf"].floatValue,
-                        cases: CasesModel(id: UUID(),
-                                    casesCount: i.1["cases"].intValue,
-                                    todayCases: i.1["todayCases"].intValue,
-                                    deaths: i.1["deaths"].intValue,
-                                    todayDeaths: i.1["todayDeaths"].intValue,
-                                    recovered: i.1["recovered"].intValue,
-                                    critical: i.1["critical"].intValue,
-                                    updated: self.getDate(time: i.1["updated"].intValue)
-                        )
+                                           name: i.1["country"].stringValue,
+                                           flag: countryInfo["flag"].stringValue,
+                                           lat: countryInfo["lat"].floatValue,
+                                           long: countryInfo["lonf"].floatValue,
+                                           cases: CasesModel(id: UUID(),
+                                                             casesCount: i.1["cases"].intValue,
+                                                             todayCases: i.1["todayCases"].intValue,
+                                                             deaths: i.1["deaths"].intValue,
+                                                             todayDeaths: i.1["todayDeaths"].intValue,
+                                                             recovered: i.1["recovered"].intValue,
+                                                             critical: i.1["critical"].intValue,
+                                                             updated: self.getDate(time: i.1["updated"].intValue)
+                    )
                 )
                 self.countries.append(country)
             }
             
             self.isLoading = false
+            self.countries.sort {
+                $0.cases.casesCount > $1.cases.casesCount
+            }
         }
     }
     

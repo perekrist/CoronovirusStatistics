@@ -70,7 +70,7 @@ struct CountryCardView: View {
             }
         }
             .padding()
-            .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.width / 2 + 50)
+        .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.width / 2 + 50)
         .background(Color.init(generateRandomColor()).opacity(0.5))
             .cornerRadius(20)
         .shadow(color: Color.black.opacity(0.2), radius: 10)
