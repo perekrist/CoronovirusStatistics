@@ -1,23 +1,14 @@
 //
-//  Structs.swift
+//  CasesModel.swift
 //  CoronovirusStat
 //
-//  Created by Кристина Перегудова on 30.03.2020.
+//  Created by Кристина Перегудова on 21.05.2020.
 //  Copyright © 2020 Кристина Перегудова. All rights reserved.
 //
 
 import Foundation
 
-struct Country: Identifiable {
-    var id: Int
-    var name: String
-    var flag: String
-    var lat: Float
-    var long: Float
-    var cases: Cases
-}
-
-struct Cases: Identifiable {
+struct CasesModel: Identifiable {
     var id: UUID
     var casesCount: Int
     var todayCases: Int?

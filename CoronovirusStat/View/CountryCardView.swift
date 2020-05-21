@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 
 struct CountryCardView: View {
     
-    var country: Country
+    var country: CountryModel
     
     var body: some View {
         VStack {
@@ -88,7 +88,7 @@ struct CountryCardView: View {
 
 struct CountryCardView_Previews: PreviewProvider {
     static var previews: some View {
-        CountryCardView(country: .init(id: 0, name: "USA", flag: "", lat: 0, long: 0, cases: Cases(id: UUID(), casesCount: 100000, todayCases: 100, deaths: 90, todayDeaths: 15, recovered: 111, critical: 12, updated: "Mar - 02 - 2020 16:30 AM")))
+        CountryCardView(country: .init(id: 0, name: "USA", flag: "", lat: 0, long: 0, cases: CasesModel(id: UUID(), casesCount: 100000, todayCases: 100, deaths: 90, todayDeaths: 15, recovered: 111, critical: 12, updated: "Mar - 02 - 2020 16:30 AM")))
             .previewLayout(.sizeThatFits)
     }
 }
