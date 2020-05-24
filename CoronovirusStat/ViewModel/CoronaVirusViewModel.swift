@@ -66,7 +66,9 @@ class CoronaVirusViewModel: ObservableObject {
                 )
                 self.countries.append(country)
             }
-            
+            self.countries.sort {
+                $0.cases.casesCount > $1.cases.casesCount
+            }
             self.isLoading = false
         }
     }
